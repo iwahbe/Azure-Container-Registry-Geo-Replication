@@ -1,57 +1,57 @@
 {
-    "name": "xyz",
-    "resources": {
-        "xyz:index:StaticPage": {
-            "isComponent": true,
-            "inputProperties": {
-                "indexContent": {
-                    "type": "string",
-                    "description": "The HTML content for index.html."
-                }
-            },
-            "requiredInputs": [
-                "indexContent"
-            ],
-            "properties": {
-                "bucket": {
-                    "$ref": "/aws/v4.0.0/schema.json#/resources/aws:s3%2Fbucket:Bucket",
-                    "description": "The bucket resource."
-                },
-                "websiteUrl": {
-                    "type": "string",
-                    "description": "The website URL."
-                }
-            },
-            "required": [
-                "bucket",
-                "websiteUrl"
-            ]
+  "name": "registrygeoreplication",
+  "resources": {
+    "registrygeoreplication:index:RegistryGeoReplication": {
+      "isComponent": true,
+      "inputProperties": {
+        "resourceGroup": {
+          "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:resources:ResourceGroup",
+          "description": "The resource group that hosts the component resource"
         }
-    },
-    "language": {
-        "csharp": {
-            "packageReferences": {
-                "Pulumi": "3.*",
-                "Pulumi.Aws": "4.*"
-            }
+      },
+      "requiredInputs": ["resourceGroup"],
+      "properties": {
+        "registry": {
+          "$ref": "FIXME",
+          "description": "The Registry"
         },
-        "go": {
-            "generateResourceContainerTypes": true,
-            "importBasePath": "github.com/pulumi/pulumi-xyz/sdk/go/xyz"
+        "replication": {
+          "$ref": "FIXME",
+          "description": "The replication policy"
         },
-        "nodejs": {
-            "dependencies": {
-                "@pulumi/aws": "^4.0.0"
-            },
-            "devDependencies": {
-                "typescript": "^3.7.0"
-            }
-        },
-        "python": {
-            "requires": {
-                "pulumi": ">=3.0.0,<4.0.0",
-                "pulumi-aws": ">=4.0.0,<5.0.0"
-            }
+        "acrLoginServerOut": {
+          "type": "string",
+          "description": "The login server url"
         }
+      },
+      "required": ["acrLoginServerOut", "registry", "replication"]
     }
+  },
+  "language": {
+    "csharp": {
+      "packageReferences": {
+        "Pulumi": "3.*",
+        "Pulumi.Aws": "1.28.*"
+      }
+    },
+    "go": {
+      "generateResourceContainerTypes": true,
+      "importBasePath": "github.com/pulumi/pulumi-registrygeoreplication/sdk/go/registrygeoreplication"
+    },
+    "nodejs": {
+      "dependencies": {
+        "@pulumi/pulumi": "^3.7.0",
+        "@pulumi/azure-native": "^1.28.0"
+      },
+      "devDependencies": {
+        "typescript": "^3.7.0"
+      }
+    },
+    "python": {
+      "requires": {
+        "pulumi": ">=3.0.0,<4.0.0",
+        "pulumi-azure-native": ">=1.0.0,<2.0.0"
+      }
+    }
+  }
 }

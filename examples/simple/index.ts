@@ -1,8 +1,10 @@
-import * as xyz from "@pulumi/xyz";
+import * as registrygeoreplication from "@pulumi/registrygeoreplication";
+import * as resources from "@pulumi/azure-native";
 
-const page = new xyz.StaticPage("page", {
-    indexContent: "<html><body><p>Hello world!</p></body></html>",
+const group = new resources.ResourceGroup("group")
+
+const registry = new registrygeoreplication.RegistryGeoReplication("registry", {
+    resourceGroup: group,
 });
 
-export const bucket = page.bucket;
-export const url = page.websiteUrl;
+export const login = registry.acrLoginServerOut;

@@ -7,7 +7,6 @@ import pulumi
 import pulumi.runtime
 from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
-import pulumi_aws
 import pulumi_azure_native
 
 __all__ = ['RegistryGeoReplicationArgs', 'RegistryGeoReplication']
@@ -109,7 +108,7 @@ class RegistryGeoReplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def registry(self) -> pulumi.Output['pulumi_aws.lambda_.Function']:
+    def registry(self) -> pulumi.Output['pulumi_azure_native.containerregistry.Registry']:
         """
         The Registry
         """
@@ -117,7 +116,7 @@ class RegistryGeoReplication(pulumi.ComponentResource):
 
     @property
     @pulumi.getter
-    def replication(self) -> pulumi.Output['pulumi_aws.lambda_.Function']:
+    def replication(self) -> pulumi.Output['pulumi_azure_native.containerregistry.Replication']:
         """
         The replication policy
         """

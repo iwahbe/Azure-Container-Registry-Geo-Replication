@@ -4,8 +4,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
-import * as pulumiAws from "@pulumi/aws";
-import * as pulumiAzure-native from "@pulumi/azure-native";
+import * as pulumiAzureNative from "@pulumi/azure-native";
 
 export class RegistryGeoReplication extends pulumi.ComponentResource {
     /** @internal */
@@ -29,11 +28,11 @@ export class RegistryGeoReplication extends pulumi.ComponentResource {
     /**
      * The Registry
      */
-    public /*out*/ readonly registry!: pulumi.Output<pulumiAws.lambda.Function>;
+    public /*out*/ readonly registry!: pulumi.Output<pulumiAzureNative.containerregistry.Registry>;
     /**
      * The replication policy
      */
-    public /*out*/ readonly replication!: pulumi.Output<pulumiAws.lambda.Function>;
+    public /*out*/ readonly replication!: pulumi.Output<pulumiAzureNative.containerregistry.Replication>;
 
     /**
      * Create a RegistryGeoReplication resource with the given unique name, arguments, and options.
@@ -72,5 +71,5 @@ export interface RegistryGeoReplicationArgs {
     /**
      * The resource group that hosts the component resource
      */
-    resourceGroup: pulumi.Input<pulumiAzure-native.resources.ResourceGroup>;
+    resourceGroup: pulumi.Input<pulumiAzureNative.resources.ResourceGroup>;
 }

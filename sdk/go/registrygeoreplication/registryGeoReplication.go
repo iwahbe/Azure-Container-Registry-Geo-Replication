@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"github.com/pkg/errors"
-	"github.com/pulumi/pulumi-aws/sdk/v3/go/aws/lambda"
+	containerregistry "github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
 	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -19,9 +19,9 @@ type RegistryGeoReplication struct {
 	// The login server url
 	AcrLoginServerOut pulumi.StringOutput `pulumi:"acrLoginServerOut"`
 	// The Registry
-	Registry lambda.FunctionOutput `pulumi:"registry"`
+	Registry containerregistry.RegistryOutput `pulumi:"registry"`
 	// The replication policy
-	Replication lambda.FunctionOutput `pulumi:"replication"`
+	Replication containerregistry.ReplicationOutput `pulumi:"replication"`
 }
 
 // NewRegistryGeoReplication registers a new resource with the given unique name, arguments, and options.

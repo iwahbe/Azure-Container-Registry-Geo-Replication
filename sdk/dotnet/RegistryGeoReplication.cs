@@ -22,13 +22,13 @@ namespace Pulumi.Registrygeoreplication
         /// The Registry
         /// </summary>
         [Output("registry")]
-        public Output<Pulumi.Aws.Lambda.Function> Registry { get; private set; } = null!;
+        public Output<Pulumi.AzureNative.ContainerRegistry.Registry> Registry { get; private set; } = null!;
 
         /// <summary>
         /// The replication policy
         /// </summary>
         [Output("replication")]
-        public Output<Pulumi.Aws.Lambda.Function> Replication { get; private set; } = null!;
+        public Output<Pulumi.AzureNative.ContainerRegistry.Replication> Replication { get; private set; } = null!;
 
 
         /// <summary>

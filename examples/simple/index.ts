@@ -1,10 +1,10 @@
 import * as registrygeoreplication from "@pulumi/registrygeoreplication";
-import * as resources from "@pulumi/azure-native";
+import * as resources from "@pulumi/azure-native/resources";
 
-const group = new resources.ResourceGroup("group")
+const resourceGroup = new resources.ResourceGroup("resourceGroup");
 
 const registry = new registrygeoreplication.RegistryGeoReplication("registry", {
-    resourceGroup: group,
+    resourceGroup: resourceGroup,
 });
 
 export const login = registry.acrLoginServerOut;

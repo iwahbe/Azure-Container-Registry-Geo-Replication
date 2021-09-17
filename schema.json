@@ -12,11 +12,11 @@
       "requiredInputs": ["resourceGroup"],
       "properties": {
         "registry": {
-          "$ref": "FIXME",
+          "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Registry",
           "description": "The Registry"
         },
         "replication": {
-          "$ref": "FIXME",
+          "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Replication",
           "description": "The replication policy"
         },
         "acrLoginServerOut": {
@@ -31,7 +31,7 @@
     "csharp": {
       "packageReferences": {
         "Pulumi": "3.*",
-        "Pulumi.Aws": "1.28.*"
+        "Pulumi.AzureNative": "1.28.*"
       }
     },
     "go": {

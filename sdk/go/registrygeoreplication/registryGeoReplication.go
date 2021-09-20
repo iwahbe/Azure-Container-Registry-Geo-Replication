@@ -16,7 +16,7 @@ type RegistryGeoReplication struct {
 	pulumi.ResourceState
 
 	// The login server url
-	LoginServerOut pulumi.StringOutput `pulumi:"loginServerOut"`
+	LoginServer pulumi.StringOutput `pulumi:"loginServer"`
 	// The Registry
 	Registry containerregistry.RegistryOutput `pulumi:"registry"`
 	// The replication policy
@@ -30,14 +30,14 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, errors.New("missing one or more required arguments")
 	}
 
-	if args.Location == nil {
-		return nil, errors.New("invalid value for required argument 'Location'")
-	}
 	if args.Name == nil {
 		return nil, errors.New("invalid value for required argument 'Name'")
 	}
 	if args.ReplicationLocation == nil {
 		return nil, errors.New("invalid value for required argument 'ReplicationLocation'")
+	}
+	if args.ResourceGroupName == nil {
+		return nil, errors.New("invalid value for required argument 'ResourceGroupName'")
 	}
 	var resource RegistryGeoReplication
 	err := ctx.RegisterRemoteComponentResource("registrygeoreplication:index:RegistryGeoReplication", name, args, &resource, opts...)
@@ -50,14 +50,12 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 type registryGeoReplicationArgs struct {
 	// Enable admin user that has push / pull permissions to the registry
 	AdminUserEnabled *bool `pulumi:"adminUserEnabled"`
-	// The location of the registry
-	Location string `pulumi:"location"`
 	// Globally unique name of your azure container registry
 	Name string `pulumi:"name"`
 	// The location of the registry replica location
 	ReplicationLocation string `pulumi:"replicationLocation"`
 	// The name of the enclosing resource group
-	ResourceGroupName *string `pulumi:"resourceGroupName"`
+	ResourceGroupName string `pulumi:"resourceGroupName"`
 	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
 	Sku *string `pulumi:"sku"`
 }
@@ -66,14 +64,12 @@ type registryGeoReplicationArgs struct {
 type RegistryGeoReplicationArgs struct {
 	// Enable admin user that has push / pull permissions to the registry
 	AdminUserEnabled pulumi.BoolPtrInput
-	// The location of the registry
-	Location pulumi.StringInput
 	// Globally unique name of your azure container registry
 	Name pulumi.StringInput
 	// The location of the registry replica location
 	ReplicationLocation pulumi.StringInput
 	// The name of the enclosing resource group
-	ResourceGroupName pulumi.StringPtrInput
+	ResourceGroupName pulumi.StringInput
 	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
 	Sku pulumi.StringPtrInput
 }

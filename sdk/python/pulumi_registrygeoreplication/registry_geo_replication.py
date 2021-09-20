@@ -14,42 +14,26 @@ __all__ = ['RegistryGeoReplicationArgs', 'RegistryGeoReplication']
 @pulumi.input_type
 class RegistryGeoReplicationArgs:
     def __init__(__self__, *,
-                 location: pulumi.Input[str],
                  name: pulumi.Input[str],
                  replication_location: pulumi.Input[str],
+                 resource_group_name: pulumi.Input[str],
                  admin_user_enabled: Optional[pulumi.Input[bool]] = None,
-                 resource_group_name: Optional[pulumi.Input[str]] = None,
                  sku: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a RegistryGeoReplication resource.
-        :param pulumi.Input[str] location: The location of the registry
         :param pulumi.Input[str] name: Globally unique name of your azure container registry
         :param pulumi.Input[str] replication_location: The location of the registry replica location
-        :param pulumi.Input[bool] admin_user_enabled: Enable admin user that has push / pull permissions to the registry
         :param pulumi.Input[str] resource_group_name: The name of the enclosing resource group
+        :param pulumi.Input[bool] admin_user_enabled: Enable admin user that has push / pull permissions to the registry
         :param pulumi.Input[str] sku: Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
         """
-        pulumi.set(__self__, "location", location)
         pulumi.set(__self__, "name", name)
         pulumi.set(__self__, "replication_location", replication_location)
+        pulumi.set(__self__, "resource_group_name", resource_group_name)
         if admin_user_enabled is not None:
             pulumi.set(__self__, "admin_user_enabled", admin_user_enabled)
-        if resource_group_name is not None:
-            pulumi.set(__self__, "resource_group_name", resource_group_name)
         if sku is not None:
             pulumi.set(__self__, "sku", sku)
-
-    @property
-    @pulumi.getter
-    def location(self) -> pulumi.Input[str]:
-        """
-        The location of the registry
-        """
-        return pulumi.get(self, "location")
-
-    @location.setter
-    def location(self, value: pulumi.Input[str]):
-        pulumi.set(self, "location", value)
 
     @property
     @pulumi.getter
@@ -76,6 +60,18 @@ class RegistryGeoReplicationArgs:
         pulumi.set(self, "replication_location", value)
 
     @property
+    @pulumi.getter(name="resourceGroupName")
+    def resource_group_name(self) -> pulumi.Input[str]:
+        """
+        The name of the enclosing resource group
+        """
+        return pulumi.get(self, "resource_group_name")
+
+    @resource_group_name.setter
+    def resource_group_name(self, value: pulumi.Input[str]):
+        pulumi.set(self, "resource_group_name", value)
+
+    @property
     @pulumi.getter(name="adminUserEnabled")
     def admin_user_enabled(self) -> Optional[pulumi.Input[bool]]:
         """
@@ -86,18 +82,6 @@ class RegistryGeoReplicationArgs:
     @admin_user_enabled.setter
     def admin_user_enabled(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "admin_user_enabled", value)
-
-    @property
-    @pulumi.getter(name="resourceGroupName")
-    def resource_group_name(self) -> Optional[pulumi.Input[str]]:
-        """
-        The name of the enclosing resource group
-        """
-        return pulumi.get(self, "resource_group_name")
-
-    @resource_group_name.setter
-    def resource_group_name(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "resource_group_name", value)
 
     @property
     @pulumi.getter
@@ -118,7 +102,6 @@ class RegistryGeoReplication(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  admin_user_enabled: Optional[pulumi.Input[bool]] = None,
-                 location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  replication_location: Optional[pulumi.Input[str]] = None,
                  resource_group_name: Optional[pulumi.Input[str]] = None,
@@ -129,7 +112,6 @@ class RegistryGeoReplication(pulumi.ComponentResource):
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[bool] admin_user_enabled: Enable admin user that has push / pull permissions to the registry
-        :param pulumi.Input[str] location: The location of the registry
         :param pulumi.Input[str] name: Globally unique name of your azure container registry
         :param pulumi.Input[str] replication_location: The location of the registry replica location
         :param pulumi.Input[str] resource_group_name: The name of the enclosing resource group
@@ -159,7 +141,6 @@ class RegistryGeoReplication(pulumi.ComponentResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  admin_user_enabled: Optional[pulumi.Input[bool]] = None,
-                 location: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  replication_location: Optional[pulumi.Input[str]] = None,
                  resource_group_name: Optional[pulumi.Input[str]] = None,
@@ -179,18 +160,17 @@ class RegistryGeoReplication(pulumi.ComponentResource):
             __props__ = RegistryGeoReplicationArgs.__new__(RegistryGeoReplicationArgs)
 
             __props__.__dict__["admin_user_enabled"] = admin_user_enabled
-            if location is None and not opts.urn:
-                raise TypeError("Missing required property 'location'")
-            __props__.__dict__["location"] = location
             if name is None and not opts.urn:
                 raise TypeError("Missing required property 'name'")
             __props__.__dict__["name"] = name
             if replication_location is None and not opts.urn:
                 raise TypeError("Missing required property 'replication_location'")
             __props__.__dict__["replication_location"] = replication_location
+            if resource_group_name is None and not opts.urn:
+                raise TypeError("Missing required property 'resource_group_name'")
             __props__.__dict__["resource_group_name"] = resource_group_name
             __props__.__dict__["sku"] = sku
-            __props__.__dict__["login_server_out"] = None
+            __props__.__dict__["login_server"] = None
             __props__.__dict__["registry"] = None
             __props__.__dict__["replication"] = None
         super(RegistryGeoReplication, __self__).__init__(
@@ -201,12 +181,12 @@ class RegistryGeoReplication(pulumi.ComponentResource):
             remote=True)
 
     @property
-    @pulumi.getter(name="loginServerOut")
-    def login_server_out(self) -> pulumi.Output[str]:
+    @pulumi.getter(name="loginServer")
+    def login_server(self) -> pulumi.Output[str]:
         """
         The login server url
         """
-        return pulumi.get(self, "login_server_out")
+        return pulumi.get(self, "login_server")
 
     @property
     @pulumi.getter

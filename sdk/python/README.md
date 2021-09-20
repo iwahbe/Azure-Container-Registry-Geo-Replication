@@ -35,7 +35,6 @@ $ cd examples/simple
 $ yarn install
 $ yarn link @pulumi/registrygeoreplication
 $ pulumi stack init test
-$ pulumi config set aws:region us-east-1
 $ pulumi up
 ```
 
@@ -44,4 +43,9 @@ $ pulumi up
 
 - Should we give the user the ability to choose the `Sku`? It must be `Premium`
   to allow this feature.
-- Should we have the user pass in the name of the resource group, or the resource group itself (as a ref)?
+- Should we have the user pass in the name of the resource group, or the
+  resource group itself (as a ref)?
+- Do the dotnet example
+  
+## Just After Publishing
+- Update `requirments.txt` to be accurate.

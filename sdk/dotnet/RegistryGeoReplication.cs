@@ -15,8 +15,8 @@ namespace Pulumi.Registrygeoreplication
         /// <summary>
         /// The login server url
         /// </summary>
-        [Output("loginServerOut")]
-        public Output<string> LoginServerOut { get; private set; } = null!;
+        [Output("loginServer")]
+        public Output<string> LoginServer { get; private set; } = null!;
 
         /// <summary>
         /// The Registry
@@ -65,12 +65,6 @@ namespace Pulumi.Registrygeoreplication
         public Input<bool>? AdminUserEnabled { get; set; }
 
         /// <summary>
-        /// The location of the registry
-        /// </summary>
-        [Input("location", required: true)]
-        public Input<string> Location { get; set; } = null!;
-
-        /// <summary>
         /// Globally unique name of your azure container registry
         /// </summary>
         [Input("name", required: true)]
@@ -85,8 +79,8 @@ namespace Pulumi.Registrygeoreplication
         /// <summary>
         /// The name of the enclosing resource group
         /// </summary>
-        [Input("resourceGroupName")]
-        public Input<string>? ResourceGroupName { get; set; }
+        [Input("resourceGroupName", required: true)]
+        public Input<string> ResourceGroupName { get; set; } = null!;
 
         /// <summary>
         /// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU

@@ -24,7 +24,7 @@ export class RegistryGeoReplication extends pulumi.ComponentResource {
     /**
      * The login server url
      */
-    public /*out*/ readonly loginServerOut!: pulumi.Output<string>;
+    public /*out*/ readonly loginServer!: pulumi.Output<string>;
     /**
      * The Registry
      */
@@ -45,26 +45,25 @@ export class RegistryGeoReplication extends pulumi.ComponentResource {
         let inputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.location === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'location'");
-            }
             if ((!args || args.name === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'name'");
             }
             if ((!args || args.replicationLocation === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'replicationLocation'");
             }
+            if ((!args || args.resourceGroupName === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'resourceGroupName'");
+            }
             inputs["adminUserEnabled"] = args ? args.adminUserEnabled : undefined;
-            inputs["location"] = args ? args.location : undefined;
             inputs["name"] = args ? args.name : undefined;
             inputs["replicationLocation"] = args ? args.replicationLocation : undefined;
             inputs["resourceGroupName"] = args ? args.resourceGroupName : undefined;
             inputs["sku"] = args ? args.sku : undefined;
-            inputs["loginServerOut"] = undefined /*out*/;
+            inputs["loginServer"] = undefined /*out*/;
             inputs["registry"] = undefined /*out*/;
             inputs["replication"] = undefined /*out*/;
         } else {
-            inputs["loginServerOut"] = undefined /*out*/;
+            inputs["loginServer"] = undefined /*out*/;
             inputs["registry"] = undefined /*out*/;
             inputs["replication"] = undefined /*out*/;
         }
@@ -84,10 +83,6 @@ export interface RegistryGeoReplicationArgs {
      */
     adminUserEnabled?: pulumi.Input<boolean>;
     /**
-     * The location of the registry
-     */
-    location: pulumi.Input<string>;
-    /**
      * Globally unique name of your azure container registry
      */
     name: pulumi.Input<string>;
@@ -98,7 +93,7 @@ export interface RegistryGeoReplicationArgs {
     /**
      * The name of the enclosing resource group
      */
-    resourceGroupName?: pulumi.Input<string>;
+    resourceGroupName: pulumi.Input<string>;
     /**
      * Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
      */

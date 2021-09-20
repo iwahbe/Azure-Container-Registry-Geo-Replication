@@ -20,7 +20,6 @@ import (
 	containerregistry "github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
 	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
 // The set of arguments for creating a RegistryGeoReplication component resource
@@ -29,8 +28,6 @@ type RegistryGeoReplicationArgs struct {
 	Name string `pulumi:"name"`
 	// Enable admin user that has push / pull permissions to the registry
 	AdminUserEnabled bool `pulumi:"adminUserEnabled"`
-	// The location of the registry
-	Location string `pulumi:"location"`
 	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
 	Sku string `pulumi:"sku"`
 	// The location of the registry replica location
@@ -43,9 +40,9 @@ type RegistryGeoReplicationArgs struct {
 type RegistryGeoReplication struct {
 	pulumi.ResourceState
 
-	Registry       *containerregistry.Registry    `pulumi:"registry"`
-	Replication    *containerregistry.Replication `pulumi:replication`
-	LoginServerOut pulumi.StringOutput            `pulumi:"loginServerOut"`
+	Registry    *containerregistry.Registry    `pulumi:"registry"`
+	Replication *containerregistry.Replication `pulumi:replication`
+	LoginServer pulumi.StringOutput            `pulumi:"loginServer"`
 }
 
 // NewRegistryGeoReplication creates a new RegistryGeoReplication component resource.
@@ -54,7 +51,6 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 	if args == nil {
 		args = &RegistryGeoReplicationArgs{}
 	}
-	cfg := config.New(ctx, "")
 
 	component := &RegistryGeoReplication{}
 
@@ -99,7 +95,7 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, err
 	}
 	component.Registry = registryResource
-	component.LoginServerOut = registryResource.LoginServer
+	component.LoginServer = registryResource.LoginServer
 	replication, err := containerregistry.NewReplication(ctx, "replicationResource", &containerregistry.ReplicationArgs{
 		Location:          pulumi.String(acrReplicaLocationParam),
 		RegistryName:      registryResource.Name,

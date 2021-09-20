@@ -5,10 +5,9 @@ const resourceGroup = new resources.ResourceGroup("resourceGroup");
 
 const registry = new registrygeoreplication.RegistryGeoReplication("registry", {
     name: "registry",
-    location: "northcentralus",
     replicationLocation: "westus",
     resourceGroupName: resourceGroup.name,
 });
 
-export const login = registry.loginServerOut;
+export const login = registry.loginServer;
 export const underlying_registry_id = registry.registry.id;

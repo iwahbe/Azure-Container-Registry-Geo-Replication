@@ -45,3 +45,7 @@ $ pulumi up
   to allow this feature.
 - Should we have the user pass in the name of the resource group, or the
   resource group itself (as a ref)?
+- Do the dotnet example
+  
+## Just After Publishing
+- Update `requirments.txt` to be accurate.

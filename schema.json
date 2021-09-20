@@ -12,10 +12,6 @@
           "type": "boolean",
           "description": "Enable admin user that has push / pull permissions to the registry"
         },
-        "location": {
-          "type": "string",
-          "description": "The location of the registry"
-        },
         "sku": {
           "type": "string",
           "description": "Tier of your Azure Container Registry. Geo-replication requires the Premium SKU"
@@ -29,7 +25,7 @@
           "description": "The name of the enclosing resource group"
         }
       },
-      "requiredInputs": ["name", "location", "replicationLocation"],
+      "requiredInputs": ["name", "resourceGroupName", "replicationLocation"],
       "properties": {
         "registry": {
           "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Registry",
@@ -39,12 +35,12 @@
           "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Replication",
           "description": "The replication policy"
         },
-        "loginServerOut": {
+        "loginServer": {
           "type": "string",
           "description": "The login server url"
         }
       },
-      "required": ["loginServerOut", "registry", "replication"]
+      "required": ["loginServer", "registry", "replication"]
     }
   },
   "language": {

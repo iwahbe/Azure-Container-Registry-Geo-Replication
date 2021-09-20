@@ -15,8 +15,8 @@ namespace Pulumi.Registrygeoreplication
         /// <summary>
         /// The login server url
         /// </summary>
-        [Output("acrLoginServerOut")]
-        public Output<string> AcrLoginServerOut { get; private set; } = null!;
+        [Output("loginServerOut")]
+        public Output<string> LoginServerOut { get; private set; } = null!;
 
         /// <summary>
         /// The Registry
@@ -59,10 +59,40 @@ namespace Pulumi.Registrygeoreplication
     public sealed class RegistryGeoReplicationArgs : Pulumi.ResourceArgs
     {
         /// <summary>
-        /// The resource group that hosts the component resource
+        /// Enable admin user that has push / pull permissions to the registry
         /// </summary>
-        [Input("resourceGroup", required: true)]
-        public Input<Pulumi.AzureNative.Resources.ResourceGroup> ResourceGroup { get; set; } = null!;
+        [Input("adminUserEnabled")]
+        public Input<bool>? AdminUserEnabled { get; set; }
+
+        /// <summary>
+        /// The location of the registry
+        /// </summary>
+        [Input("location", required: true)]
+        public Input<string> Location { get; set; } = null!;
+
+        /// <summary>
+        /// Globally unique name of your azure container registry
+        /// </summary>
+        [Input("name", required: true)]
+        public Input<string> Name { get; set; } = null!;
+
+        /// <summary>
+        /// The location of the registry replica location
+        /// </summary>
+        [Input("replicationLocation", required: true)]
+        public Input<string> ReplicationLocation { get; set; } = null!;
+
+        /// <summary>
+        /// The name of the enclosing resource group
+        /// </summary>
+        [Input("resourceGroupName")]
+        public Input<string>? ResourceGroupName { get; set; }
+
+        /// <summary>
+        /// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
+        /// </summary>
+        [Input("sku")]
+        public Input<string>? Sku { get; set; }
 
         public RegistryGeoReplicationArgs()
         {

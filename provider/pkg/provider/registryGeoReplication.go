@@ -23,19 +23,29 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
 
-// The set of arguments for creating a RegistryGeoReplication component resource.
+// The set of arguments for creating a RegistryGeoReplication component resource
 type RegistryGeoReplicationArgs struct {
-	// The HTML content for index.html.
-	ResourceGroup *resources.ResourceGroup `pulumi:"resourceGroup"`
+	// Globally unique name of your azure container registry
+	Name string `pulumi:"name"`
+	// Enable admin user that has push / pull permissions to the registry
+	AdminUserEnabled bool `pulumi:"adminUserEnabled"`
+	// The location of the registry
+	Location string `pulumi:"location"`
+	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
+	Sku string `pulumi:"sku"`
+	// The location of the registry replica location
+	ReplicationLocation string `pulumi:"replicationLocation"`
+	// The name of the enclosing resource group
+	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
 // The RegistryGeoReplication component resource.
 type RegistryGeoReplication struct {
 	pulumi.ResourceState
 
-	Registry          *containerregistry.Registry    `pulumi:"registry"`
-	Replication       *containerregistry.Replication `pulumi:replication`
-	AcrLoginServerOut pulumi.StringOutput            `pulumi:"acrLoginServerOut"`
+	Registry       *containerregistry.Registry    `pulumi:"registry"`
+	Replication    *containerregistry.Replication `pulumi:replication`
+	LoginServerOut pulumi.StringOutput            `pulumi:"loginServerOut"`
 }
 
 // NewRegistryGeoReplication creates a new RegistryGeoReplication component resource.
@@ -44,6 +54,7 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 	if args == nil {
 		args = &RegistryGeoReplicationArgs{}
 	}
+	cfg := config.New(ctx, "")
 
 	component := &RegistryGeoReplication{}
 
@@ -52,24 +63,18 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, err
 	}
 
-	// BEGIN COPY
-	cfg := config.New(ctx, "")
-	acrAdminUserEnabledParam := false
-	if param := cfg.GetBool("acrAdminUserEnabledParam"); param {
-		acrAdminUserEnabledParam = param
+	// Required parameters
+	acrAdminUserEnabledParam := args.AdminUserEnabled
+	acrNameParam := args.Name
+	acrReplicaLocationParam := args.ReplicationLocation
+	resourceGroupNameParam := args.ResourceGroupName
+
+	// Optional parameters
+	acrSkuParam := args.Sku
+	if acrSkuParam == "" {
+		acrSkuParam = string(containerregistry.SkuNamePremium)
 	}
 
-	acrNameParam := fmt.Sprintf("acr%s", args.ResourceGroup.ID)
-	if param := cfg.Get("acrNameParam"); param != "" {
-		acrNameParam = param
-	}
-
-	acrReplicaLocationParam := cfg.Require("acrReplicaLocationParam")
-	acrSkuParam := "Premium"
-	if param := cfg.Get("acrSkuParam"); param != "" {
-		acrSkuParam = param
-	}
-	resourceGroupNameParam := cfg.Require("resourceGroupNameParam")
 	resourceGroupVar, err := resources.LookupResourceGroup(ctx, &resources.LookupResourceGroupArgs{
 		ResourceGroupName: resourceGroupNameParam,
 	}, nil)
@@ -77,9 +82,6 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, err
 	}
 	locationParam := resourceGroupVar.Location
-	if param := cfg.Get("locationParam"); param != "" {
-		locationParam = param
-	}
 	registryResource, err := containerregistry.NewRegistry(ctx, "registryResource", &containerregistry.RegistryArgs{
 		AdminUserEnabled:  pulumi.Bool(acrAdminUserEnabledParam),
 		Location:          pulumi.String(locationParam),
@@ -97,7 +99,7 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, err
 	}
 	component.Registry = registryResource
-	component.AcrLoginServerOut = registryResource.LoginServer
+	component.LoginServerOut = registryResource.LoginServer
 	replication, err := containerregistry.NewReplication(ctx, "replicationResource", &containerregistry.ReplicationArgs{
 		Location:          pulumi.String(acrReplicaLocationParam),
 		RegistryName:      registryResource.Name,

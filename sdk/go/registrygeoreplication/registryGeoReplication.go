@@ -9,7 +9,6 @@ import (
 
 	"github.com/pkg/errors"
 	containerregistry "github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
-	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -17,7 +16,7 @@ type RegistryGeoReplication struct {
 	pulumi.ResourceState
 
 	// The login server url
-	AcrLoginServerOut pulumi.StringOutput `pulumi:"acrLoginServerOut"`
+	LoginServerOut pulumi.StringOutput `pulumi:"loginServerOut"`
 	// The Registry
 	Registry containerregistry.RegistryOutput `pulumi:"registry"`
 	// The replication policy
@@ -31,8 +30,14 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 		return nil, errors.New("missing one or more required arguments")
 	}
 
-	if args.ResourceGroup == nil {
-		return nil, errors.New("invalid value for required argument 'ResourceGroup'")
+	if args.Location == nil {
+		return nil, errors.New("invalid value for required argument 'Location'")
+	}
+	if args.Name == nil {
+		return nil, errors.New("invalid value for required argument 'Name'")
+	}
+	if args.ReplicationLocation == nil {
+		return nil, errors.New("invalid value for required argument 'ReplicationLocation'")
 	}
 	var resource RegistryGeoReplication
 	err := ctx.RegisterRemoteComponentResource("registrygeoreplication:index:RegistryGeoReplication", name, args, &resource, opts...)
@@ -43,14 +48,34 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 }
 
 type registryGeoReplicationArgs struct {
-	// The resource group that hosts the component resource
-	ResourceGroup *resources.ResourceGroup `pulumi:"resourceGroup"`
+	// Enable admin user that has push / pull permissions to the registry
+	AdminUserEnabled *bool `pulumi:"adminUserEnabled"`
+	// The location of the registry
+	Location string `pulumi:"location"`
+	// Globally unique name of your azure container registry
+	Name string `pulumi:"name"`
+	// The location of the registry replica location
+	ReplicationLocation string `pulumi:"replicationLocation"`
+	// The name of the enclosing resource group
+	ResourceGroupName *string `pulumi:"resourceGroupName"`
+	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
+	Sku *string `pulumi:"sku"`
 }
 
 // The set of arguments for constructing a RegistryGeoReplication resource.
 type RegistryGeoReplicationArgs struct {
-	// The resource group that hosts the component resource
-	ResourceGroup resources.ResourceGroupInput
+	// Enable admin user that has push / pull permissions to the registry
+	AdminUserEnabled pulumi.BoolPtrInput
+	// The location of the registry
+	Location pulumi.StringInput
+	// Globally unique name of your azure container registry
+	Name pulumi.StringInput
+	// The location of the registry replica location
+	ReplicationLocation pulumi.StringInput
+	// The name of the enclosing resource group
+	ResourceGroupName pulumi.StringPtrInput
+	// Tier of your Azure Container Registry. Geo-replication requires the Premium SKU
+	Sku pulumi.StringPtrInput
 }
 
 func (RegistryGeoReplicationArgs) ElementType() reflect.Type {

@@ -4,12 +4,32 @@
     "registrygeoreplication:index:RegistryGeoReplication": {
       "isComponent": true,
       "inputProperties": {
-        "resourceGroup": {
-          "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:resources:ResourceGroup",
-          "description": "The resource group that hosts the component resource"
+        "name": {
+          "type": "string",
+          "description": "Globally unique name of your azure container registry"
+        },
+        "adminUserEnabled": {
+          "type": "boolean",
+          "description": "Enable admin user that has push / pull permissions to the registry"
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the registry"
+        },
+        "sku": {
+          "type": "string",
+          "description": "Tier of your Azure Container Registry. Geo-replication requires the Premium SKU"
+        },
+        "replicationLocation": {
+          "type": "string",
+          "description": "The location of the registry replica location"
+        },
+        "resourceGroupName": {
+          "type": "string",
+          "description": "The name of the enclosing resource group"
         }
       },
-      "requiredInputs": ["resourceGroup"],
+      "requiredInputs": ["name", "location", "replicationLocation"],
       "properties": {
         "registry": {
           "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Registry",
@@ -19,12 +39,12 @@
           "$ref": "/azure-native/v1.28.0/schema.json#/resources/azure-native:containerregistry:Replication",
           "description": "The replication policy"
         },
-        "acrLoginServerOut": {
+        "loginServerOut": {
           "type": "string",
           "description": "The login server url"
         }
       },
-      "required": ["acrLoginServerOut", "registry", "replication"]
+      "required": ["loginServerOut", "registry", "replication"]
     }
   },
   "language": {

@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/Azure-Container-Registry-Geo-Replication"
+	"github.com/pulumi/pulumi-azure-quickstart-acr-geo-replication/sdk/go/azure"
 	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
-	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/storage"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -14,8 +13,8 @@ func main() {
 		if err != nil {
 			return err
 		}
-
-		registry, err := registrygeoreplication.NewRegistryGeoReplication(ctx, "registry", &registrygeoreplication.RegistryGeoReplicationArgs{
+		azure-quickstart-acr-geo-replication
+		registry, err := acr.NewRegistry(ctx, "registry", &azure.RegistryGeoReplicationArgs{
 			Name:                "registry",
 			ReplicationLocation: "westus",
 			ResourceGroupName:   resourceGroup.Name,

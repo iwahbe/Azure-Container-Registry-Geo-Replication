@@ -7,9 +7,9 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Registrygeoreplication
+namespace Pulumi.AzureQuickStartAcrGeoReplication
 {
-    [RegistrygeoreplicationResourceType("pulumi:providers:registrygeoreplication")]
+    [AzureQuickStartAcrGeoReplicationResourceType("pulumi:providers:azure-quickstart-acr-geo-replication")]
     public partial class Provider : Pulumi.ProviderResource
     {
         /// <summary>
@@ -20,7 +20,7 @@ namespace Pulumi.Registrygeoreplication
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
         public Provider(string name, ProviderArgs? args = null, CustomResourceOptions? options = null)
-            : base("registrygeoreplication", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
+            : base("azure-quickstart-acr-geo-replication", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
         {
         }
 

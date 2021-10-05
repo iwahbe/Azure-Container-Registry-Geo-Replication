@@ -2,13 +2,13 @@
 
 import pulumi
 from pulumi_azure_native import resources
-from pulumi_registrygeoreplication import RegistryGeoReplication
+from pulumi_azure_quickstart_acr_geo_replication import Registry
 
 # Create an Azure Resource Group
 resource_group = resources.ResourceGroup('resource_group')
 
 # Create an Azure resource (Storage Account)
-registry = RegistryGeoReplication('registry',
+registry = Registry('registry',
     name="registry",
     resource_group_name=resource_group.name,
     replication_location="westus")

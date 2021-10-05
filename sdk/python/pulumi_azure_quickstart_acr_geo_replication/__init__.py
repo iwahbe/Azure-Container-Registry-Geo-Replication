@@ -6,16 +6,16 @@ from . import _utilities
 import typing
 # Export this package's modules as members:
 from .provider import *
-from .registry_geo_replication import *
+from .registry import *
 _utilities.register(
     resource_modules="""
 [
  {
-  "pkg": "registrygeoreplication",
+  "pkg": "azure-quickstart-acr-geo-replication",
   "mod": "index",
-  "fqn": "pulumi_registrygeoreplication",
+  "fqn": "pulumi_azure_quickstart_acr_geo_replication",
   "classes": {
-   "registrygeoreplication:index:RegistryGeoReplication": "RegistryGeoReplication"
+   "azure-quickstart-acr-geo-replication:index:Registry": "Registry"
   }
  }
 ]
@@ -23,9 +23,9 @@ _utilities.register(
     resource_packages="""
 [
  {
-  "pkg": "registrygeoreplication",
-  "token": "pulumi:providers:registrygeoreplication",
-  "fqn": "pulumi_registrygeoreplication",
+  "pkg": "azure-quickstart-acr-geo-replication",
+  "token": "pulumi:providers:azure-quickstart-acr-geo-replication",
+  "fqn": "pulumi_azure_quickstart_acr_geo_replication",
   "class": "Provider"
  }
 ]

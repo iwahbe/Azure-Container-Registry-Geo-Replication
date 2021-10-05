@@ -1,9 +1,9 @@
-import * as registrygeoreplication from "@pulumi/registrygeoreplication";
+import * as acr from "@pulumi/azure-quickstart-acr-geo-replication";
 import * as resources from "@pulumi/azure-native/resources";
 
 const resourceGroup = new resources.ResourceGroup("resourceGroup");
 
-const registry = new registrygeoreplication.RegistryGeoReplication("registry", {
+const registry = new acr.Registry("registry", {
     name: "registry",
     replicationLocation: "westus",
     resourceGroupName: resourceGroup.name,

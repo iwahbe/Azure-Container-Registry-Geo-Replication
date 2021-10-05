@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using Pulumi;
 
-namespace Pulumi.Registrygeoreplication
+namespace Pulumi.AzureQuickStartAcrGeoReplication
 {
     static class Utilities
     {
@@ -66,7 +66,7 @@ namespace Pulumi.Registrygeoreplication
         static Utilities()
         {
             var assembly = typeof(Utilities).GetTypeInfo().Assembly;
-            using var stream = assembly.GetManifestResourceStream("Pulumi.Registrygeoreplication.version.txt");
+            using var stream = assembly.GetManifestResourceStream("Pulumi.AzureQuickStartAcrGeoReplication.version.txt");
             using var reader = new StreamReader(stream ?? throw new NotSupportedException("Missing embedded version.txt file"));
             version = reader.ReadToEnd().Trim();
             var parts = version.Split("\n");
@@ -78,9 +78,9 @@ namespace Pulumi.Registrygeoreplication
         }
     }
 
-    internal sealed class RegistrygeoreplicationResourceTypeAttribute : Pulumi.ResourceTypeAttribute
+    internal sealed class AzureQuickStartAcrGeoReplicationResourceTypeAttribute : Pulumi.ResourceTypeAttribute
     {
-        public RegistrygeoreplicationResourceTypeAttribute(string type) : base(type, Utilities.Version)
+        public AzureQuickStartAcrGeoReplicationResourceTypeAttribute(string type) : base(type, Utilities.Version)
         {
         }
     }

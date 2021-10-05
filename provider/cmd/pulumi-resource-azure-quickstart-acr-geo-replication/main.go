@@ -17,11 +17,11 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-registrygeoreplication/pkg/provider"
-	"github.com/pulumi/pulumi-registrygeoreplication/pkg/version"
+	"github.com/pulumi/pulumi-azure-quickstart-acr-geo-replication/pkg/provider"
+	"github.com/pulumi/pulumi-azure-quickstart-acr-geo-replication/pkg/version"
 )
 
-var providerName = "registrygeoreplication"
+var providerName = "azure-quickstart-acr-georeplication"
 
 func main() {
 	provider.Serve(providerName, version.Version, pulumiSchema)

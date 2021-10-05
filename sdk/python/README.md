@@ -6,7 +6,7 @@ language Pulumi supports.
 
 An example `RegistryGeoReplication` [component
 resource](https://www.pulumi.com/docs/intro/concepts/resources/#components) is
-available in `provider/pkg/provider/registryGeoReplication.go `. This component
+available in `provider/pkg/provider/registryGeoReplication.go`. This component
 provides a new Azure Container Registry with geo-replication.
 
 Note that the generated provider plugin (`pulumi-resource-registrygeoreplication`) must be on your `PATH` to be used by Pulumi deployments. If creating a provider for distribution to other users, you should ensure they install this plugin to their `PATH`.
@@ -33,7 +33,7 @@ make generate
 $ make install_nodejs_sdk
 $ cd examples/simple
 $ yarn install
-$ yarn link @pulumi/registrygeoreplication
+$ yarn link @pulumi/acrgeoreplication
 $ pulumi stack init test
 $ pulumi up
 ```

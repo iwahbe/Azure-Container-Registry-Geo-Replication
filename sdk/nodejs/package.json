@@ -1,11 +1,11 @@
 {
-    "name": "@pulumi/registrygeoreplication",
+    "name": "@pulumi/azure-quickstart-acr-geo-replication",
     "version": "${VERSION}",
     "scripts": {
         "build": "tsc"
     },
     "dependencies": {
-        "@pulumi/azure-native": "^1.28.0",
+        "@pulumi/azure-native": "^1.34.0",
         "@pulumi/pulumi": "^3.7.0"
     },
     "devDependencies": {

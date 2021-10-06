@@ -9,8 +9,8 @@ using Pulumi.Serialization;
 
 namespace Pulumi.AzureQuickStartAcrGeoReplication
 {
-    [AzureQuickStartAcrGeoReplicationResourceType("azure-quickstart-acr-geo-replication:index:Registry")]
-    public partial class Registry : Pulumi.ComponentResource
+    [AzureQuickStartAcrGeoReplicationResourceType("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry")]
+    public partial class ReplicatedRegistry : Pulumi.ComponentResource
     {
         /// <summary>
         /// The login server url
@@ -32,14 +32,14 @@ namespace Pulumi.AzureQuickStartAcrGeoReplication
 
 
         /// <summary>
-        /// Create a Registry resource with the given unique name, arguments, and options.
+        /// Create a ReplicatedRegistry resource with the given unique name, arguments, and options.
         /// </summary>
         ///
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Registry(string name, RegistryArgs args, ComponentResourceOptions? options = null)
-            : base("azure-quickstart-acr-geo-replication:index:Registry", name, args ?? new RegistryArgs(), MakeResourceOptions(options, ""), remote: true)
+        public ReplicatedRegistry(string name, ReplicatedRegistryArgs args, ComponentResourceOptions? options = null)
+            : base("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry", name, args ?? new ReplicatedRegistryArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
 
@@ -56,7 +56,7 @@ namespace Pulumi.AzureQuickStartAcrGeoReplication
         }
     }
 
-    public sealed class RegistryArgs : Pulumi.ResourceArgs
+    public sealed class ReplicatedRegistryArgs : Pulumi.ResourceArgs
     {
         /// <summary>
         /// Enable admin user that has push / pull permissions to the registry
@@ -88,7 +88,7 @@ namespace Pulumi.AzureQuickStartAcrGeoReplication
         [Input("sku")]
         public Input<string>? Sku { get; set; }
 
-        public RegistryArgs()
+        public ReplicatedRegistryArgs()
         {
         }
     }

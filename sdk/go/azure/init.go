@@ -20,8 +20,8 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
-	case "azure-quickstart-acr-geo-replication:index:Registry":
-		r = &Registry{}
+	case "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry":
+		r = &ReplicatedRegistry{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}

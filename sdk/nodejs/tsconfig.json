@@ -15,7 +15,7 @@
     "files": [
         "index.ts",
         "provider.ts",
-        "registry.ts",
+        "replicatedRegistry.ts",
         "utilities.ts"
     ]
 }

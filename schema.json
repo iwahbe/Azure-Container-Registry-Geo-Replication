@@ -1,7 +1,7 @@
 {
   "name": "azure-quickstart-acr-geo-replication",
   "resources": {
-    "azure-quickstart-acr-geo-replication:index:Registry": {
+    "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry": {
       "isComponent": true,
       "inputProperties": {
         "name": {

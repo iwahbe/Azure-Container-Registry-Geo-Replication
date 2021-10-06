@@ -6,17 +6,17 @@ import * as utilities from "./utilities";
 
 // Export members:
 export * from "./provider";
-export * from "./registry";
+export * from "./replicatedRegistry";
 
 // Import resources to register:
-import { Registry } from "./registry";
+import { ReplicatedRegistry } from "./replicatedRegistry";
 
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "azure-quickstart-acr-geo-replication:index:Registry":
-                return new Registry(name, <any>undefined, { urn })
+            case "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry":
+                return new ReplicatedRegistry(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

@@ -24,28 +24,28 @@ import (
 func construct(ctx *pulumi.Context, typ, name string, inputs provider.ConstructInputs,
 	options pulumi.ResourceOption) (*provider.ConstructResult, error) {
 	switch typ {
-	case "azure-quickstart-acr-geo-replication:index:Registry":
-		return constructRegistry(ctx, name, inputs, options)
+	case "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry":
+		return constructReplicatedRegistry(ctx, name, inputs, options)
 	default:
 		return nil, errors.Errorf("unknown resource type %s", typ)
 	}
 }
 
-// constructRegistry is an implementation of Construct for the example Registry component.
+// constructReplicatedRegistry is an implementation of Construct for the example Replicated Registry component.
 // It demonstrates converting the raw ConstructInputs to the component's args struct, creating
 // the component, and returning its URN and state (outputs).
-func constructRegistry(ctx *pulumi.Context, name string, inputs provider.ConstructInputs,
+func constructReplicatedRegistry(ctx *pulumi.Context, name string, inputs provider.ConstructInputs,
 	options pulumi.ResourceOption) (*provider.ConstructResult, error) {
 
 	// Copy the raw inputs to RegistryArgs. `inputs.CopyTo` uses the types and `pulumi:` tags
 	// on the struct's fields to convert the raw values to the appropriate Input types.
-	args := &RegistryArgs{}
+	args := &ReplicatedRegistryArgs{}
 	if err := inputs.CopyTo(args); err != nil {
 		return nil, errors.Wrap(err, "setting args")
 	}
 
 	// Create the component resource.
-	registry, err := NewRegistry(ctx, name, args, options)
+	registry, err := NewReplicatedRegistry(ctx, name, args, options)
 	if err != nil {
 		return nil, errors.Wrap(err, "creating component")
 	}

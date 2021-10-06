@@ -6,19 +6,19 @@ import * as utilities from "./utilities";
 
 import * as pulumiAzureNative from "@pulumi/azure-native";
 
-export class Registry extends pulumi.ComponentResource {
+export class ReplicatedRegistry extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'azure-quickstart-acr-geo-replication:index:Registry';
+    public static readonly __pulumiType = 'azure-quickstart-acr-geo-replication:index:ReplicatedRegistry';
 
     /**
-     * Returns true if the given object is an instance of Registry.  This is designed to work even
+     * Returns true if the given object is an instance of ReplicatedRegistry.  This is designed to work even
      * when multiple copies of the Pulumi SDK have been loaded into the same process.
      */
-    public static isInstance(obj: any): obj is Registry {
+    public static isInstance(obj: any): obj is ReplicatedRegistry {
         if (obj === undefined || obj === null) {
             return false;
         }
-        return obj['__pulumiType'] === Registry.__pulumiType;
+        return obj['__pulumiType'] === ReplicatedRegistry.__pulumiType;
     }
 
     /**
@@ -35,13 +35,13 @@ export class Registry extends pulumi.ComponentResource {
     public /*out*/ readonly replication!: pulumi.Output<pulumiAzureNative.containerregistry.Replication>;
 
     /**
-     * Create a Registry resource with the given unique name, arguments, and options.
+     * Create a ReplicatedRegistry resource with the given unique name, arguments, and options.
      *
      * @param name The _unique_ name of the resource.
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: RegistryArgs, opts?: pulumi.ComponentResourceOptions) {
+    constructor(name: string, args: ReplicatedRegistryArgs, opts?: pulumi.ComponentResourceOptions) {
         let inputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
@@ -70,14 +70,14 @@ export class Registry extends pulumi.ComponentResource {
         if (!opts.version) {
             opts = pulumi.mergeOptions(opts, { version: utilities.getVersion()});
         }
-        super(Registry.__pulumiType, name, inputs, opts, true /*remote*/);
+        super(ReplicatedRegistry.__pulumiType, name, inputs, opts, true /*remote*/);
     }
 }
 
 /**
- * The set of arguments for constructing a Registry resource.
+ * The set of arguments for constructing a ReplicatedRegistry resource.
  */
-export interface RegistryArgs {
+export interface ReplicatedRegistryArgs {
     /**
      * Enable admin user that has push / pull permissions to the registry
      */

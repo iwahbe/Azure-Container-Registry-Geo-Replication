@@ -6,7 +6,7 @@ from . import _utilities
 import typing
 # Export this package's modules as members:
 from .provider import *
-from .registry import *
+from .replicated_registry import *
 _utilities.register(
     resource_modules="""
 [
@@ -15,7 +15,7 @@ _utilities.register(
   "mod": "index",
   "fqn": "pulumi_azure_quickstart_acr_geo_replication",
   "classes": {
-   "azure-quickstart-acr-geo-replication:index:Registry": "Registry"
+   "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry": "ReplicatedRegistry"
   }
  }
 ]

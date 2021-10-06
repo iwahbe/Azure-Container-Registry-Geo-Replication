@@ -3,7 +3,7 @@ import * as resources from "@pulumi/azure-native/resources";
 
 const resourceGroup = new resources.ResourceGroup("resourceGroup");
 
-const registry = new acr.Registry("registry", {
+const registry = new acr.ReplicatedRegistry("registry", {
     name: "registry",
     replicationLocation: "westus",
     resourceGroupName: resourceGroup.name,

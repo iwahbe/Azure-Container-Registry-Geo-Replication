@@ -22,8 +22,8 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// The set of arguments for creating a RegistryArgs component resource
-type RegistryArgs struct {
+// The set of arguments for creating a ReplicatedRegistryArgs component resource
+type ReplicatedRegistryArgs struct {
 	// Globally unique name of your azure container registry
 	Name string `pulumi:"name"`
 	// Enable admin user that has push / pull permissions to the registry
@@ -36,25 +36,25 @@ type RegistryArgs struct {
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
-// The Repository component resource.
-type Repository struct {
+// The ReplicatedRegistry component resource.
+type ReplicatedRegistry struct {
 	pulumi.ResourceState
 
 	Registry    *containerregistry.Registry    `pulumi:"registry"`
-	Replication *containerregistry.Replication `pulumi:replication`
+	Replication *containerregistry.Replication `pulumi:"replication"`
 	LoginServer pulumi.StringOutput            `pulumi:"loginServer"`
 }
 
-// NewRegistry creates a new Repository component resource.
-func NewRegistry(ctx *pulumi.Context,
-	name string, args *RegistryArgs, opts ...pulumi.ResourceOption) (*Repository, error) {
+// NewReplicatedRegistry creates a new ACR Replicated Registry component resource.
+func NewReplicatedRegistry(ctx *pulumi.Context,
+	name string, args *ReplicatedRegistryArgs, opts ...pulumi.ResourceOption) (*ReplicatedRegistry, error) {
 	if args == nil {
-		args = &RegistryArgs{}
+		args = &ReplicatedRegistryArgs{}
 	}
 
-	component := &Repository{}
+	component := &ReplicatedRegistry{}
 
-	err := ctx.RegisterComponentResource("azure-quickstart-acr-geo-replication:index:Registry", name, component, opts...)
+	err := ctx.RegisterComponentResource("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry", name, component, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,6 +77,7 @@ func NewRegistry(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
+
 	registryResource, err := containerregistry.NewRegistry(ctx, "registryResource", &containerregistry.RegistryArgs{
 		AdminUserEnabled:  pulumi.Bool(acrAdminUserEnabledParam),
 		Location:          pulumi.String(resourceGroupVar.Location),
@@ -93,10 +94,9 @@ func NewRegistry(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	component.Registry = registryResource
-	component.LoginServer = registryResource.LoginServer
+
 	replication, err := containerregistry.NewReplication(ctx, "replicationResource", &containerregistry.ReplicationArgs{
-		Location:          pulumi.String(resourceGroupVar.Location),
+		Location:          pulumi.String(acrReplicaLocationParam),
 		RegistryName:      registryResource.Name,
 		ReplicationName:   pulumi.String(fmt.Sprintf("%v/%v", acrNameParam, acrReplicaLocationParam)),
 		ResourceGroupName: pulumi.String(resourceGroupNameParam),
@@ -104,6 +104,18 @@ func NewRegistry(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
+
 	component.Replication = replication
+	component.Registry = registryResource
+	component.LoginServer = registryResource.LoginServer
+
+	if err := ctx.RegisterResourceOutputs(component, pulumi.Map{
+		"registry":    registryResource,
+		"loginServer": registryResource.LoginServer,
+		"replication": replication,
+	}); err != nil {
+		return nil, err
+	}
+
 	return component, nil
 }

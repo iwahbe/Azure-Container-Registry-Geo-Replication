@@ -9,10 +9,10 @@ from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
 import pulumi_azure_native
 
-__all__ = ['RegistryArgs', 'Registry']
+__all__ = ['ReplicatedRegistryArgs', 'ReplicatedRegistry']
 
 @pulumi.input_type
-class RegistryArgs:
+class ReplicatedRegistryArgs:
     def __init__(__self__, *,
                  name: pulumi.Input[str],
                  replication_location: pulumi.Input[str],
@@ -20,7 +20,7 @@ class RegistryArgs:
                  admin_user_enabled: Optional[pulumi.Input[bool]] = None,
                  sku: Optional[pulumi.Input[str]] = None):
         """
-        The set of arguments for constructing a Registry resource.
+        The set of arguments for constructing a ReplicatedRegistry resource.
         :param pulumi.Input[str] name: Globally unique name of your azure container registry
         :param pulumi.Input[str] replication_location: The location of the registry replica location
         :param pulumi.Input[str] resource_group_name: The name of the enclosing resource group
@@ -96,7 +96,7 @@ class RegistryArgs:
         pulumi.set(self, "sku", value)
 
 
-class Registry(pulumi.ComponentResource):
+class ReplicatedRegistry(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
@@ -108,7 +108,7 @@ class Registry(pulumi.ComponentResource):
                  sku: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a Registry resource with the given unique name, props, and options.
+        Create a ReplicatedRegistry resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[bool] admin_user_enabled: Enable admin user that has push / pull permissions to the registry
@@ -121,17 +121,17 @@ class Registry(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: RegistryArgs,
+                 args: ReplicatedRegistryArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Registry resource with the given unique name, props, and options.
+        Create a ReplicatedRegistry resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
-        :param RegistryArgs args: The arguments to use to populate this resource's properties.
+        :param ReplicatedRegistryArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
         ...
     def __init__(__self__, resource_name: str, *args, **kwargs):
-        resource_args, opts = _utilities.get_resource_args_opts(RegistryArgs, pulumi.ResourceOptions, *args, **kwargs)
+        resource_args, opts = _utilities.get_resource_args_opts(ReplicatedRegistryArgs, pulumi.ResourceOptions, *args, **kwargs)
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
@@ -157,7 +157,7 @@ class Registry(pulumi.ComponentResource):
         else:
             if __props__ is not None:
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
-            __props__ = RegistryArgs.__new__(RegistryArgs)
+            __props__ = ReplicatedRegistryArgs.__new__(ReplicatedRegistryArgs)
 
             __props__.__dict__["admin_user_enabled"] = admin_user_enabled
             if name is None and not opts.urn:
@@ -173,8 +173,8 @@ class Registry(pulumi.ComponentResource):
             __props__.__dict__["login_server"] = None
             __props__.__dict__["registry"] = None
             __props__.__dict__["replication"] = None
-        super(Registry, __self__).__init__(
-            'azure-quickstart-acr-geo-replication:index:Registry',
+        super(ReplicatedRegistry, __self__).__init__(
+            'azure-quickstart-acr-geo-replication:index:ReplicatedRegistry',
             resource_name,
             __props__,
             opts,

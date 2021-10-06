@@ -6,7 +6,7 @@ import * as utilities from "./utilities";
 
 export class Provider extends pulumi.ProviderResource {
     /** @internal */
-    public static readonly __pulumiType = 'registrygeoreplication';
+    public static readonly __pulumiType = 'azure-quickstart-acr-geo-replication';
 
     /**
      * Returns true if the given object is an instance of Provider.  This is designed to work even

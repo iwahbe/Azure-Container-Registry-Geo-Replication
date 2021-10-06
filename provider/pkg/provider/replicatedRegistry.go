@@ -17,13 +17,13 @@ package provider
 import (
 	"fmt"
 
-	containerregistry "github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
-	resources "github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
+	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/containerregistry"
+	"github.com/pulumi/pulumi-azure-native/sdk/go/azure/resources"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// The set of arguments for creating a RegistryGeoReplication component resource
-type RegistryGeoReplicationArgs struct {
+// The set of arguments for creating a ReplicatedRegistryArgs component resource
+type ReplicatedRegistryArgs struct {
 	// Globally unique name of your azure container registry
 	Name string `pulumi:"name"`
 	// Enable admin user that has push / pull permissions to the registry
@@ -36,25 +36,25 @@ type RegistryGeoReplicationArgs struct {
 	ResourceGroupName string `pulumi:"resourceGroupName"`
 }
 
-// The RegistryGeoReplication component resource.
-type RegistryGeoReplication struct {
+// The ReplicatedRegistry component resource.
+type ReplicatedRegistry struct {
 	pulumi.ResourceState
 
 	Registry    *containerregistry.Registry    `pulumi:"registry"`
-	Replication *containerregistry.Replication `pulumi:replication`
+	Replication *containerregistry.Replication `pulumi:"replication"`
 	LoginServer pulumi.StringOutput            `pulumi:"loginServer"`
 }
 
-// NewRegistryGeoReplication creates a new RegistryGeoReplication component resource.
-func NewRegistryGeoReplication(ctx *pulumi.Context,
-	name string, args *RegistryGeoReplicationArgs, opts ...pulumi.ResourceOption) (*RegistryGeoReplication, error) {
+// NewReplicatedRegistry creates a new ACR Replicated Registry component resource.
+func NewReplicatedRegistry(ctx *pulumi.Context,
+	name string, args *ReplicatedRegistryArgs, opts ...pulumi.ResourceOption) (*ReplicatedRegistry, error) {
 	if args == nil {
-		args = &RegistryGeoReplicationArgs{}
+		args = &ReplicatedRegistryArgs{}
 	}
 
-	component := &RegistryGeoReplication{}
+	component := &ReplicatedRegistry{}
 
-	err := ctx.RegisterComponentResource("registrygeoreplication:index:RegistryGeoReplication", name, component, opts...)
+	err := ctx.RegisterComponentResource("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry", name, component, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -77,10 +77,10 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	locationParam := resourceGroupVar.Location
+
 	registryResource, err := containerregistry.NewRegistry(ctx, "registryResource", &containerregistry.RegistryArgs{
 		AdminUserEnabled:  pulumi.Bool(acrAdminUserEnabledParam),
-		Location:          pulumi.String(locationParam),
+		Location:          pulumi.String(resourceGroupVar.Location),
 		RegistryName:      pulumi.String(acrNameParam),
 		ResourceGroupName: pulumi.String(resourceGroupNameParam),
 		Sku: &containerregistry.SkuArgs{
@@ -94,17 +94,28 @@ func NewRegistryGeoReplication(ctx *pulumi.Context,
 	if err != nil {
 		return nil, err
 	}
-	component.Registry = registryResource
-	component.LoginServer = registryResource.LoginServer
+
 	replication, err := containerregistry.NewReplication(ctx, "replicationResource", &containerregistry.ReplicationArgs{
 		Location:          pulumi.String(acrReplicaLocationParam),
 		RegistryName:      registryResource.Name,
-		ReplicationName:   pulumi.String(fmt.Sprintf("%v%v%v", acrNameParam, "/", acrReplicaLocationParam)),
+		ReplicationName:   pulumi.String(fmt.Sprintf("%v/%v", acrNameParam, acrReplicaLocationParam)),
 		ResourceGroupName: pulumi.String(resourceGroupNameParam),
 	})
 	if err != nil {
 		return nil, err
 	}
+
 	component.Replication = replication
+	component.Registry = registryResource
+	component.LoginServer = registryResource.LoginServer
+
+	if err := ctx.RegisterResourceOutputs(component, pulumi.Map{
+		"registry":    registryResource,
+		"loginServer": registryResource.LoginServer,
+		"replication": replication,
+	}); err != nil {
+		return nil, err
+	}
+
 	return component, nil
 }

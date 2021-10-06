@@ -7,10 +7,10 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Registrygeoreplication
+namespace Pulumi.AzureQuickStartAcrGeoReplication
 {
-    [RegistrygeoreplicationResourceType("registrygeoreplication:index:RegistryGeoReplication")]
-    public partial class RegistryGeoReplication : Pulumi.ComponentResource
+    [AzureQuickStartAcrGeoReplicationResourceType("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry")]
+    public partial class ReplicatedRegistry : Pulumi.ComponentResource
     {
         /// <summary>
         /// The login server url
@@ -32,14 +32,14 @@ namespace Pulumi.Registrygeoreplication
 
 
         /// <summary>
-        /// Create a RegistryGeoReplication resource with the given unique name, arguments, and options.
+        /// Create a ReplicatedRegistry resource with the given unique name, arguments, and options.
         /// </summary>
         ///
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public RegistryGeoReplication(string name, RegistryGeoReplicationArgs args, ComponentResourceOptions? options = null)
-            : base("registrygeoreplication:index:RegistryGeoReplication", name, args ?? new RegistryGeoReplicationArgs(), MakeResourceOptions(options, ""), remote: true)
+        public ReplicatedRegistry(string name, ReplicatedRegistryArgs args, ComponentResourceOptions? options = null)
+            : base("azure-quickstart-acr-geo-replication:index:ReplicatedRegistry", name, args ?? new ReplicatedRegistryArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
 
@@ -56,7 +56,7 @@ namespace Pulumi.Registrygeoreplication
         }
     }
 
-    public sealed class RegistryGeoReplicationArgs : Pulumi.ResourceArgs
+    public sealed class ReplicatedRegistryArgs : Pulumi.ResourceArgs
     {
         /// <summary>
         /// Enable admin user that has push / pull permissions to the registry
@@ -88,7 +88,7 @@ namespace Pulumi.Registrygeoreplication
         [Input("sku")]
         public Input<string>? Sku { get; set; }
 
-        public RegistryGeoReplicationArgs()
+        public ReplicatedRegistryArgs()
         {
         }
     }

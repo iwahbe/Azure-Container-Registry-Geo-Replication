@@ -6,30 +6,30 @@ import * as utilities from "./utilities";
 
 // Export members:
 export * from "./provider";
-export * from "./registryGeoReplication";
+export * from "./replicatedRegistry";
 
 // Import resources to register:
-import { RegistryGeoReplication } from "./registryGeoReplication";
+import { ReplicatedRegistry } from "./replicatedRegistry";
 
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "registrygeoreplication:index:RegistryGeoReplication":
-                return new RegistryGeoReplication(name, <any>undefined, { urn })
+            case "azure-quickstart-acr-geo-replication:index:ReplicatedRegistry":
+                return new ReplicatedRegistry(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
-pulumi.runtime.registerResourceModule("registrygeoreplication", "index", _module)
+pulumi.runtime.registerResourceModule("azure-quickstart-acr-geo-replication", "index", _module)
 
 import { Provider } from "./provider";
 
-pulumi.runtime.registerResourcePackage("registrygeoreplication", {
+pulumi.runtime.registerResourcePackage("azure-quickstart-acr-geo-replication", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {
-        if (type !== "pulumi:providers:registrygeoreplication") {
+        if (type !== "pulumi:providers:azure-quickstart-acr-geo-replication") {
             throw new Error(`unknown provider type ${type}`);
         }
         return new Provider(name, <any>undefined, { urn });
